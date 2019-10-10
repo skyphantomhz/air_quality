@@ -10,4 +10,5 @@ void setupLocator() {
   getIt.registerLazySingleton<Client>(() => Client());
   getIt.registerLazySingleton<JsonDecoder>(() => JsonDecoder());
   getIt.registerLazySingleton<SearchService>(() => SearchService());
+  getIt.registerFactory(() => JsonDecoder());
 }
