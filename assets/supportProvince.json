@@ -1,0 +1,11 @@
+{
+    "status": "success",
+    "data": [
+        {
+            "state": "Hanoi"
+        },
+        {
+            "state": "Ho Chi Minh City"
+        }
+    ]
+}
