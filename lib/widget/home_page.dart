@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:air_quality/bloc/search_city_bloc.dart';
 import 'package:air_quality/model/city.dart';
+import 'package:air_quality/widget/weather_property.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,25 +28,33 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Container(
-        alignment: Alignment.topCenter,
-        child: Stack(
-          children: <Widget>[
-            Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                padding: EdgeInsets.only(top: 30),
-                width: 200.0,
-                height: 180.0,
-                child: ProgressArc(),
-              ),
+      body: Column(
+        children: <Widget>[
+          Container(
+            alignment: Alignment.topCenter,
+            child: Stack(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    padding: EdgeInsets.only(top: 30),
+                    width: 200.0,
+                    height: 180.0,
+                    child: ProgressArc(),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text("29", style: TextStyle(fontFamily: 'AllRoundGothic')),
+                ),
+              ],
             ),
-            Align(
-              alignment: Alignment.center,
-              child: Text("29", style: TextStyle(fontFamily: 'AllRoundGothic')),
-            ),
-          ],
-        ),
+          ),
+          Container(
+            padding: EdgeInsets.all(30),
+            child: WeatherProperty(),
+          )
+        ],
       ),
       // body:
       //  SingleChildScrollView(
