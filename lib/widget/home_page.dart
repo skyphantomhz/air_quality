@@ -1,13 +1,9 @@
-import 'dart:math';
-
 import 'package:air_quality/bloc/search_city_bloc.dart';
-import 'package:air_quality/model/city.dart';
+import 'package:air_quality/widget/homecomponents/progress_arc.dart';
 import 'package:air_quality/widget/weather_property.dart';
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'dart:math' as math;
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -28,128 +24,95 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Column(
+      body: ListView(
         children: <Widget>[
           Container(
+            margin: EdgeInsets.only(top: 20),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  "Da Nang",
+                  style: TextStyle(fontSize: 20),
+                ),
+                Text(
+                  "Vietnam",
+                  style: TextStyle(fontSize: 15, color: Colors.black26),
+                )
+              ],
+            ),
+          ),
+          Container(
+            height: 200.0,
+            margin: EdgeInsets.only(top: 30),
             alignment: Alignment.topCenter,
             child: Stack(
               children: <Widget>[
                 Align(
                   alignment: Alignment.topCenter,
                   child: Container(
-                    padding: EdgeInsets.only(top: 30),
                     width: 200.0,
-                    height: 180.0,
+                    height: 200.0,
                     child: ProgressArc(),
                   ),
                 ),
                 Align(
                   alignment: Alignment.center,
-                  child: Text("29", style: TextStyle(fontFamily: 'AllRoundGothic')),
+                  child: Text("29",
+                      style: TextStyle(
+                          fontFamily: 'AllRoundGothic', fontSize: 70)),
                 ),
+                Align(
+                  alignment: Alignment(0, 0.5),
+                  child: Text("AQI (US)"),
+                ),
+                Align(
+                  alignment: Alignment(0, 1),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+                    decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(4)),
+                    child: InkWell(
+                      onTap: () {
+                        print("Hello");
+                      },
+                      child: Text(
+                        "Moderate",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(30),
-            child: WeatherProperty(),
+          Row(
+            children: <Widget>[
+              Container(
+                width: 100,
+                margin: EdgeInsets.only(left: 10),
+                padding: EdgeInsets.all(8),
+                child: WeatherProperty(),
+              ),
+              Container(
+                width: 100,
+                margin: EdgeInsets.only(left: 10),
+                padding: EdgeInsets.all(8),
+                child: WeatherProperty(),
+              ),
+            ],
           )
         ],
       ),
-      // body:
-      //  SingleChildScrollView(
-      //   child: Column(
-      //       mainAxisAlignment: MainAxisAlignment.start,
-      //       crossAxisAlignment: CrossAxisAlignment.center,
-      //       mainAxisSize: MainAxisSize.max,
-      //       children: <Widget>[
-      //         Container(
-      //           decoration: BoxDecoration(color: Colors.amberAccent),
-      //           child: ProgressArc(),
-      //           // Text(
-      //           //   "23",
-      //           //   style: TextStyle(fontSize: 30.0, fontFamily: 'AllRoundGothic'),
-      //           // ),
-      //         ),
-      //       ]),
-      // ),
     );
   }
-
-  // Widget demo() {
-  //   return Padding(
-  //     padding: const EdgeInsets.all(8.0),
-  //     child: Column(
-  //       children: <Widget>[
-  //         StreamBuilder(
-  //           stream: bloc.city,
-  //           initialData: City(),
-  //           builder: (BuildContext context, AsyncSnapshot<City> snapshot) {
-  //             final history = snapshot.data.history;
-  //             final current = snapshot.data.current;
-  //             return Column(
-  //               children: <Widget>[
-  //                 Container(
-  //                   color: Colors.green,
-  //                   child: ProgressArc(),
-  //                   // ListTile(
-  //                   //   title: Text(current?.weather?.tp?.toString() ?? ""),
-  //                   //   leading: Text(current?.weather?.ts ?? ""),
-  //                   // ),
-  //                 ),
-  //               ],
-  //             );
-  //           },
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 }
 
-class ProgressArc extends StatefulWidget {
-  @override
-  _ProgressArcState createState() => _ProgressArcState();
-}
+slideBarProperty() {}
 
-class _ProgressArcState extends State<ProgressArc> {
+class SlideBarProperty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      foregroundPainter: ProgressArcPaint(),
-    );
-  }
-}
-
-class ProgressArcPaint extends CustomPainter {
-  final basePaint = Paint()
-    ..color = Colors.black26
-    ..style = PaintingStyle.stroke
-    ..strokeWidth = 10
-    ..strokeCap = StrokeCap.round;
-
-  final primaryPaint = Paint()
-    ..color = Colors.green[200]
-    ..style = PaintingStyle.stroke
-    ..strokeWidth = 10
-    ..strokeCap = StrokeCap.round;
-
-  final startAngle = -math.pi;
-  final baseAngle = math.pi;
-  final useCenter = false;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final rect = Rect.fromLTRB(0, 0, size.width, size.height);
-
-    final sweepAngle = math.pi * 2 / 3;
-
-    canvas.drawArc(rect, startAngle, baseAngle, useCenter, basePaint);
-    canvas.drawArc(rect, startAngle, sweepAngle, useCenter, primaryPaint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return true;
+    return Container();
   }
 }

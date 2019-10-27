@@ -33,7 +33,6 @@ class WeatherProperty extends StatelessWidget {
           ),
           LinearProgressIndicator(
             value: 0.4,
-            valueColor: ,
             backgroundColor: Colors.black12,
           )
         ],
