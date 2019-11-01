@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -12,7 +14,7 @@ class _ProgressArcState extends State<ProgressArc> {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      foregroundPainter: ProgressArcPaint(25, Colors.black26, Colors.green),
+      foregroundPainter: ProgressArcPaint(Random().nextDouble(), Colors.black26, Colors.green),
     );
   }
 }
@@ -43,7 +45,7 @@ class ProgressArcPaint extends CustomPainter {
   ProgressArcPaint(this.percent, this.colorBaseLine, this.colorPrimaryLine) {
     basePaint.color = colorBaseLine;
     primaryPaint.color = colorPrimaryLine;
-    _sweepAngle = (baseAngle * percent) / 100;
+    _sweepAngle = baseAngle * percent;
   }
 
   @override

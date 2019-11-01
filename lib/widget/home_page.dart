@@ -52,7 +52,8 @@ class _HomePageState extends State<HomePage> {
                   child: Container(
                     width: 200.0,
                     height: 200.0,
-                    child: ProgressArc(),
+                    child: ProgressArc(
+                    ),
                   ),
                 ),
                 Align(
