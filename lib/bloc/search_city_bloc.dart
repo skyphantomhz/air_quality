@@ -9,6 +9,8 @@ class SearchCityBloc extends Bloc {
   PublishSubject<City> _city = PublishSubject<City>();
   Observable<City> get city => _city.stream;
 
+  Observable<String> cityName => _city.flatMap((value) => {value.city});
+
   void fetchData() async {
     final response = await service.fetchData();
     _city.sink.add(response);

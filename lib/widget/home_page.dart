@@ -52,8 +52,7 @@ class _HomePageState extends State<HomePage> {
                   child: Container(
                     width: 200.0,
                     height: 200.0,
-                    child: ProgressArc(
-                    ),
+                    child: ProgressArc(),
                   ),
                 ),
                 Align(
@@ -89,17 +88,35 @@ class _HomePageState extends State<HomePage> {
           ),
           Row(
             children: <Widget>[
-              Container(
-                width: 100,
-                margin: EdgeInsets.only(left: 10),
-                padding: EdgeInsets.all(8),
-                child: WeatherProperty(),
+              Flexible(
+                flex: 1,
+                child: Container(
+                  margin: EdgeInsets.only(left: 10),
+                  padding: EdgeInsets.all(8),
+                  child: WeatherProperty(
+                    name: "CO2",
+                    value: 200,
+                    percent: 0.3,
+                    primaryColor: Colors.green,
+                    secondColor: Colors.grey,
+                    unit: "g/m3",
+                  ),
+                ),
               ),
-              Container(
-                width: 100,
-                margin: EdgeInsets.only(left: 10),
-                padding: EdgeInsets.all(8),
-                child: WeatherProperty(),
+              Flexible(
+                flex: 1,
+                child: Container(
+                  margin: EdgeInsets.only(right: 10),
+                  padding: EdgeInsets.all(8),
+                  child: WeatherProperty(
+                    name: "O2",
+                    value: 500,
+                    percent: 0.95,
+                    primaryColor: Colors.green,
+                    secondColor: Colors.grey,
+                    unit: "g/m3",
+                  ),
+                ),
               ),
             ],
           )
