@@ -3,7 +3,7 @@ class Weather {
   int tp;
   int pr;
   int hu;
-  double ws;
+  num ws;
   int wd;
   String ic;
 

@@ -1,20 +1,25 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'dart:math' as math;
 
 class ProgressArc extends StatefulWidget {
+  
+  const ProgressArc({this.percent, this.primaryColor, this.secondColor = const Color(0xFFFAFAFA)});
+  
   @override
   _ProgressArcState createState() => _ProgressArcState();
+
+  final double percent;
+  final Color primaryColor;
+  final Color secondColor;
 }
 
 class _ProgressArcState extends State<ProgressArc> {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      foregroundPainter: ProgressArcPaint(Random().nextDouble(), Colors.black26, Colors.green),
+      foregroundPainter: ProgressArcPaint(widget.percent, widget.secondColor, widget.primaryColor),
     );
   }
 }

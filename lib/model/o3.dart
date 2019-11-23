@@ -1,11 +1,11 @@
-class O3 {
+class WeatherProperty {
   int conc;
   int aqius;
   int aqicn;
 
-  O3({this.conc, this.aqius, this.aqicn});
+  WeatherProperty({this.conc, this.aqius, this.aqicn});
 
-  O3.fromJson(Map<String, dynamic> json) {
+  WeatherProperty.fromJson(Map<String, dynamic> json) {
     conc = json['conc'];
     aqius = json['aqius'];
     aqicn = json['aqicn'];

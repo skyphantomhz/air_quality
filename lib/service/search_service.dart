@@ -31,4 +31,22 @@ class SearchService {
       throw Exception("Failed to load route");
     }
   }
+
+
+  Future<City> fetchSpecifiedCityData(String city, String state, String country) async {
+    final response = await client.get(
+        "$baseRequest/city?city=$city&state=$state&country=$country&key=$API_KEY");
+    if (response.statusCode == 200) {
+      final responseObject =
+          BaseResponse<City>.fromJson(_decoder.convert(response.body));
+      if (responseObject.status == "success") {
+        print("=================Response=====================");
+        print("$responseObject");
+        return responseObject.data;
+      } else
+        throw Exception("Failed to load route");
+    } else {
+      throw Exception("Failed to load route");
+    }
+  }
 }

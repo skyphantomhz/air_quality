@@ -1,4 +1,5 @@
 import 'package:air_quality/bloc/search_city_bloc.dart';
+import 'package:air_quality/model/city.dart';
 import 'package:air_quality/widget/homecomponents/progress_arc.dart';
 import 'package:air_quality/widget/weather_property.dart';
 import 'package:bloc_provider/bloc_provider.dart';
@@ -30,14 +31,22 @@ class _HomePageState extends State<HomePage> {
             margin: EdgeInsets.only(top: 20),
             child: Column(
               children: <Widget>[
-                Text(
-                  "Da Nang",
-                  style: TextStyle(fontSize: 20),
-                ),
-                Text(
-                  "Vietnam",
-                  style: TextStyle(fontSize: 15, color: Colors.black26),
-                )
+                StreamBuilder<City>(
+                    stream: bloc.city,
+                    builder: (context, snapshot) {
+                      return Text(
+                        snapshot?.data?.city ?? "N/A",
+                        style: TextStyle(fontSize: 20),
+                      );
+                    }),
+                StreamBuilder<City>(
+                    stream: bloc.city,
+                    builder: (context, snapshot) {
+                      return Text(
+                        snapshot?.data?.country ?? "N/A",
+                        style: TextStyle(fontSize: 15, color: Colors.black26),
+                      );
+                    })
               ],
             ),
           ),
@@ -49,17 +58,37 @@ class _HomePageState extends State<HomePage> {
               children: <Widget>[
                 Align(
                   alignment: Alignment.topCenter,
-                  child: Container(
-                    width: 200.0,
-                    height: 200.0,
-                    child: ProgressArc(),
-                  ),
+                  child: StreamBuilder<City>(
+                      stream: bloc.city,
+                      builder: (context, snapshot) {
+                        var aqi = snapshot.data?.current?.pollution?.aqius ?? 0;
+                        double percent = aqi == 0 ? 0 : aqi / 500;
+                        var color = aqiusColor(
+                            snapshot.data?.current?.pollution?.aqius);
+                        percent = percent > 1 ? 1 : percent;
+                        return Container(
+                          width: 200.0,
+                          height: 200.0,
+                          child: ProgressArc(
+                            percent: percent,
+                            primaryColor: color,
+                            secondColor: Colors.grey[200],
+                          ),
+                        );
+                      }),
                 ),
                 Align(
                   alignment: Alignment.center,
-                  child: Text("29",
-                      style: TextStyle(
-                          fontFamily: 'AllRoundGothic', fontSize: 70)),
+                  child: StreamBuilder<City>(
+                      stream: bloc.city,
+                      builder: (context, snapshot) {
+                        return Text(
+                            snapshot?.data?.current?.pollution?.aqius
+                                    ?.toString() ??
+                                "",
+                            style: TextStyle(
+                                fontFamily: 'AllRoundGothic', fontSize: 70));
+                      }),
                 ),
                 Align(
                   alignment: Alignment(0, 0.5),
@@ -93,14 +122,24 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   margin: EdgeInsets.only(left: 10),
                   padding: EdgeInsets.all(8),
-                  child: WeatherProperty(
-                    name: "CO2",
-                    value: 200,
-                    percent: 0.3,
-                    primaryColor: Colors.green,
-                    secondColor: Colors.grey,
-                    unit: "g/m3",
-                  ),
+                  child: StreamBuilder<City>(
+                      stream: bloc.city,
+                      builder: (context, snapshot) {
+                        var aqi =
+                            snapshot.data?.current?.pollution?.p2?.aqius ?? 0;
+                        double percent = aqi == 0 ? 0 : aqi / 500;
+                        var color = aqiusColor(
+                            snapshot.data?.current?.pollution?.p2?.aqius);
+                        percent = percent > 1 ? 1 : percent;
+                        return WeatherProperty(
+                          name: "pm2.5",
+                          value: aqi.toDouble(),
+                          percent: percent,
+                          primaryColor: color,
+                          secondColor: Colors.grey[200],
+                          unit: "ugm3",
+                        );
+                      }),
                 ),
               ),
               Flexible(
@@ -108,13 +147,134 @@ class _HomePageState extends State<HomePage> {
                 child: Container(
                   margin: EdgeInsets.only(right: 10),
                   padding: EdgeInsets.all(8),
-                  child: WeatherProperty(
-                    name: "O2",
-                    value: 500,
-                    percent: 0.95,
-                    primaryColor: Colors.green,
-                    secondColor: Colors.grey,
-                    unit: "g/m3",
+                  child: StreamBuilder<City>(
+                    stream: bloc.city,
+                    builder: (context, snapshot) {
+                      var aqi =
+                            snapshot.data?.current?.pollution?.p1?.aqius ?? 0;
+                        double percent = aqi == 0 ? 0 : aqi / 500;
+                        var color = aqiusColor(
+                            snapshot.data?.current?.pollution?.p1?.aqius);
+                        percent = percent > 1 ? 1 : percent;
+                      return WeatherProperty(
+                        name: "pm10",
+                        value: aqi.toDouble(),
+                        percent: percent,
+                        primaryColor: color,
+                        secondColor: Colors.grey[200],
+                        unit: "ugm3",
+                      );
+                    }
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Flexible(
+                flex: 1,
+                child: Container(
+                  margin: EdgeInsets.only(left: 10),
+                  padding: EdgeInsets.all(8),
+                  child: StreamBuilder<City>(
+                      stream: bloc.city,
+                      builder: (context, snapshot) {
+                        var aqi =
+                            snapshot.data?.current?.pollution?.o3?.aqius ?? 0;
+                        double percent = aqi == 0 ? 0 : aqi / 500;
+                        var color = aqiusColor(
+                            snapshot.data?.current?.pollution?.o3?.aqius);
+                        percent = percent > 1 ? 1 : percent;
+                        return WeatherProperty(
+                          name: "Ozone O3",
+                          value: aqi.toDouble(),
+                          percent: percent,
+                          primaryColor: color,
+                          secondColor: Colors.grey[200],
+                          unit: "ppb",
+                        );
+                      }),
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: Container(
+                  margin: EdgeInsets.only(right: 10),
+                  padding: EdgeInsets.all(8),
+                  child: StreamBuilder<City>(
+                    stream: bloc.city,
+                    builder: (context, snapshot) {
+                      var aqi =
+                            snapshot.data?.current?.pollution?.n2?.aqius ?? 0;
+                        double percent = aqi == 0 ? 0 : aqi / 500;
+                        var color = aqiusColor(
+                            snapshot.data?.current?.pollution?.n2?.aqius);
+                        percent = percent > 1 ? 1 : percent;
+                      return WeatherProperty(
+                        name: "n2",
+                        value: aqi.toDouble(),
+                        percent: percent,
+                        primaryColor: color,
+                        secondColor: Colors.grey[200],
+                        unit: "ppb",
+                      );
+                    }
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Flexible(
+                flex: 1,
+                child: Container(
+                  margin: EdgeInsets.only(left: 10),
+                  padding: EdgeInsets.all(8),
+                  child: StreamBuilder<City>(
+                      stream: bloc.city,
+                      builder: (context, snapshot) {
+                        var aqi =
+                            snapshot.data?.current?.pollution?.s2?.aqius ?? 0;
+                        double percent = aqi == 0 ? 0 : aqi / 500;
+                        var color = aqiusColor(
+                            snapshot.data?.current?.pollution?.s2?.aqius);
+                        percent = percent > 1 ? 1 : percent;
+                        return WeatherProperty(
+                          name: "s2",
+                          value: aqi.toDouble(),
+                          percent: percent,
+                          primaryColor: color,
+                          secondColor: Colors.grey[200],
+                          unit: "ppb",
+                        );
+                      }),
+                ),
+              ),
+              Flexible(
+                flex: 1,
+                child: Container(
+                  margin: EdgeInsets.only(right: 10),
+                  padding: EdgeInsets.all(8),
+                  child: StreamBuilder<City>(
+                    stream: bloc.city,
+                    builder: (context, snapshot) {
+                      var aqi =
+                            snapshot.data?.current?.pollution?.co?.aqius ?? 0;
+                        double percent = aqi == 0 ? 0 : aqi / 500;
+                        var color = aqiusColor(
+                            snapshot.data?.current?.pollution?.co?.aqius);
+                        percent = percent > 1 ? 1 : percent;
+                      return WeatherProperty(
+                        name: "co",
+                        value: aqi.toDouble(),
+                        percent: percent,
+                        primaryColor: color,
+                        secondColor: Colors.grey[200],
+                        unit: "ppm",
+                      );
+                    }
                   ),
                 ),
               ),
@@ -132,5 +292,23 @@ class SlideBarProperty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container();
+  }
+}
+
+Color aqiusColor(int aqius) {
+  if (aqius == null) {
+    return Colors.grey;
+  } else if (aqius < 51) {
+    return Colors.green[400];
+  } else if (aqius < 101) {
+    return Colors.yellow;
+  } else if (aqius < 151) {
+    return Colors.orange[900];
+  } else if (aqius < 201) {
+    return Colors.red[900];
+  } else if (aqius < 301) {
+    return Colors.purple[900];
+  } else {
+    return Colors.brown[900];
   }
 }
